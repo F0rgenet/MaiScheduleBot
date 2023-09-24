@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import ReplyKeyboardMarkup, Message, InputMediaPhoto
 from pyrogram.enums.parse_mode import ParseMode
 import asyncio
-from modules.integrations.notes import get_telegram_message
+from modules.representation.notes import get_telegram_message
 
 
 app = Client("forgenet", api_id=21689012, api_hash="cf3421f4d8bc3fa257ac934d7184984c")
