@@ -5,3 +5,4 @@ requests
 fake_useragent
 fpdf
 pyrogram
+todoist_api_python

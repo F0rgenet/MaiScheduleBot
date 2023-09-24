@@ -93,3 +93,4 @@ def parse_schedule(group: str, week: int) -> Week:
         if day:
             days.append(_parse_day(day))
     return Week(days)
+
