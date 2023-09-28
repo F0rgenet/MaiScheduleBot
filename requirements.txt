@@ -1,10 +1,11 @@
 aiogram >= 3.0
 loguru
-beautifulsoup4
-requests
+beautifulsoup4~=4.12.2
+requests~=2.31.0
 fake_useragent
-fpdf
-pyrogram
+fpdf~=1.7.2
+pyrogram~=2.0.106
 TgCrypto
 art
 todoist_api_python
+accessify~=0.3.1
