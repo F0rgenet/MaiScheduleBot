@@ -44,6 +44,5 @@ class Week(object):
         months = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"]
         current_month = datetime.now().month
 
-
     def __str__(self):
         return "\n".join(map(str, self.days))
