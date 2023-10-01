@@ -1,1 +1,1 @@
-from .schedule import parse_schedule
+from .schedule import ScheduleParser

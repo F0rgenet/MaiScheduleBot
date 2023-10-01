@@ -1,11 +1,24 @@
 from todoist_api_python.api_async import TodoistAPIAsync, Section, Task
-from modules.parser import parse_schedule
+from modules.parser import ScheduleParser
 from modules.parser.schedule import Subject, Day
 import asyncio
 
 
-class TodoistSchedule(object):
-    def __init__(self, api_token: str, project_id: int):
+class TodoistApp(object):
+    def __init__(self, api_token: str, project_id: int, project_name: str):
+        self.api = TodoistAPIAsync(api_token)
+        self.project_id = str(project_id)
+        self.project_name = project_name
+
+
+class TodoistTasks(TodoistApp):
+    def __init__(self, api_token: str, project_id: int, project_name: str):
+        super().__init__(api_token, project_id, project_name)
+
+
+class TodoistSchedule(TodoistApp):
+    def __init__(self, api_token: str, project_id: int, project_name: str):
+        super().__init__(api_token, project_id, project_name)
         self.api = TodoistAPIAsync(api_token)
         self.project_id = str(project_id)
         self.default_priority = 2
@@ -58,7 +71,7 @@ class TodoistSchedule(object):
             await self.api.delete_task(task.id)
 
     async def create_preview_project(self):
-        await self.api.add_project(self.preview_project_name, )
+        await self.api.add_project(self.preview_project_name)
 
 
 async def create_weeks_tasks(api):
