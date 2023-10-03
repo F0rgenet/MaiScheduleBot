@@ -21,7 +21,7 @@ class ScheduleParser(object):
 
     @private
     def parse_subject(self, subject_soup: BeautifulSoup) -> Subject:
-        name, category = self.get_title()
+        name, category = self.get_title(subject_soup)
 
         other_data = [elem.text for elem in subject_soup.findChildren("li", {"class": "list-inline-item"})]
         time = other_data[0]

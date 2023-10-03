@@ -25,6 +25,8 @@ class TodoistSchedule(TodoistApp):
         self.current_week_label = "[МАИ] Текущая неделя"
         self.preview_project_name = "Текущая неделя"
 
+        self.schedule_parser = ScheduleParser()
+
     async def get_projects(self):
         return {project.name: project.id for project in await self.api.get_projects()}
 
@@ -46,7 +48,8 @@ class TodoistSchedule(TodoistApp):
         content = f"{subject.name} ({subject.category})"
         description_data = [elem for elem in [subject.location, subject.teacher] if elem]
         description = ' / '.join(map(str, description_data))
-        due = f"{day.day} {day.month} в {subject.time.split('–')[0].strip()}"
+        due = f"{day.day} {day.month} 2023 в {subject.time.split('–')[0].strip()}"
+        # TODO: rename due, wrong context
         await self.api.add_task(content=content, description=description,
                                 priority=self.default_priority, project_id=self.project_id, parent_id=day_task.id,
                                 due_string=due, due_lang="ru", labels=[self.current_week_label])
@@ -59,7 +62,7 @@ class TodoistSchedule(TodoistApp):
             await self.create_subject_task(day, subject, day_task)
 
     async def create_week_section(self, group: str, week_number: int):
-        week = parse_schedule(group, week_number)
+        week = self.schedule_parser.parse_schedule(group, week_number)
         week_section = await self.api.add_section(name=f"Неделя {week_number}", project_id=self.project_id)
         for day in week.days:
             await self.create_day_task(day, week_section)
@@ -76,13 +79,14 @@ class TodoistSchedule(TodoistApp):
 
 async def create_weeks_tasks(api):
     weeks_tasks = []
-    week = 5
+    week = 6
     task = asyncio.create_task(api.create_week_section("М3О-121Б-23", week), name=f"Week #{week}")
     weeks_tasks.append(task)
     return weeks_tasks
 
+
 async def test():
-    api = TodoistSchedule("db895749923dac14d6407a59c1789f4ba76f7e40", 2320610410)
+    api = TodoistSchedule("db895749923dac14d6407a59c1789f4ba76f7e40", 2320959698, "")
     await api.clear_schedule()
     weeks_tasks = await create_weeks_tasks(api)
     await asyncio.wait(weeks_tasks)

@@ -1,9 +1,11 @@
-import aiogram
+from modules.database import create_group, register_models
+import asyncio
 
 
-def main():
-    pass
+async def main():
+    register_models()
+    await create_group("М3О-121Б-23")
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
