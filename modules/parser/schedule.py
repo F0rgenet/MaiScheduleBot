@@ -13,8 +13,7 @@ class ScheduleParser(object):
 
     @private
     def get_title(self, subject_soup: BeautifulSoup):
-        data = subject_soup.findChild("p", {"class": "mb-2 fw-semi-bold text-dark"}).text
-        data = [elem for elem in data.replace("\t", " ").replace("\n", " ").split(" ") if elem]
+        data = subject_soup.findChild("p", {"class": "mb-2 fw-semi-bold text-dark"}).get_text(strip=True).split(" ")
         name = " ".join(data[:-1])
         category = data[-1]
         return name, category

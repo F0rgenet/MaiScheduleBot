@@ -1,5 +1,5 @@
 aiogram >= 3.0
-loguru
+loguru~=0.7.2
 beautifulsoup4~=4.12.2
 requests~=2.31.0
 fake_useragent
@@ -8,4 +8,6 @@ pyrogram~=2.0.106
 TgCrypto
 todoist_api_python
 accessify~=0.3.1
-sqlalchemy
+sqlalchemy~=2.0.21
+httpx~=0.25.0
+xmltodict~=0.13.0

@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="schedule" uuid="ebb33fb9-a8e9-4135-9b5d-40ca42e93eff">
+    <data-source source="LOCAL" name="schedule" uuid="09f61a3c-9a2f-4a7f-b0c6-e94e3aafdb8d">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:D:\Projects\Python\Bots\Telegram\MaiSchedule\schedule.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:D:\Projects\Python\Bots\Telegram\MaiSchedule\modules\parser\schedule.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.43.0/org/xerial/sqlite-jdbc/3.43.0.0/sqlite-jdbc-3.43.0.0.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>

@@ -8,9 +8,9 @@ class Group(Database.BASE):
 	__tablename__ = "groups"
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String, nullable=False)
-	institute = Column(Integer, nullable=False)
+	department = Column(Integer, nullable=False)
 	course = Column(Integer, nullable=False)
-	course_group = Column(Integer, nullable=False)
+	group_number = Column(Integer, nullable=False)
 	education_level = Column(String, nullable=False)
 	education_form = Column(String, nullable=False)
 	enter_year = Column(Integer, nullable=False)
