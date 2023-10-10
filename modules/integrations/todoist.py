@@ -1,7 +1,7 @@
 from todoist_api_python.api_async import TodoistAPIAsync, Section, Task
-from modules.parser import ScheduleParser
-from modules.parser.schedule import Subject, Day
 import asyncio
+from asyncio import Task as AsyncTask
+from loguru import logger
 
 
 class TodoistApp(object):
@@ -25,7 +25,7 @@ class TodoistSchedule(TodoistApp):
         self.current_week_label = "[МАИ] Текущая неделя"
         self.preview_project_name = "Текущая неделя"
 
-        self.schedule_parser = ScheduleParser()
+        # self.schedule_parser = ScheduleParser()
 
     async def get_projects(self):
         return {project.name: project.id for project in await self.api.get_projects()}
@@ -44,7 +44,7 @@ class TodoistSchedule(TodoistApp):
                 tasks.append(task)
         return tasks
 
-    async def create_subject_task(self, day: Day, subject: Subject, day_task: Task):
+    async def create_subject_task(self, day, subject, day_task: Task):
         content = f"{subject.name} ({subject.category})"
         description_data = [elem for elem in [subject.location, subject.teacher] if elem]
         description = ' / '.join(map(str, description_data))
@@ -54,7 +54,7 @@ class TodoistSchedule(TodoistApp):
                                 priority=self.default_priority, project_id=self.project_id, parent_id=day_task.id,
                                 due_string=due, due_lang="ru", labels=[self.current_week_label])
 
-    async def create_day_task(self, day: Day, week_section: Section):
+    async def create_day_task(self, day, week_section: Section):
         weekday = day.convert_weekday(day.weekday).title()
         day_task = await self.api.add_task(content=f"* {weekday}", project_id=self.project_id,
                                            section_id=week_section.id)
@@ -76,6 +76,23 @@ class TodoistSchedule(TodoistApp):
     async def create_preview_project(self):
         await self.api.add_project(self.preview_project_name)
 
+    async def create_homework_task(self, task: int, group_task: Task):
+        await self.api.add_task(content=f"№{task}", project_id=self.project_id, parent_id=group_task.id,
+                          priority=self.default_priority)
+        logger.info(f"Добавлена задача: №{task}")
+
+    # TODO: delete
+    async def create_homework_tasks(self, target_task_id: int):
+        tasks = {
+            "Демидович": "15-21, 23-41, 46, 50, 51, 61, 68-70, 80, 89, 93, 94, 97, 107, 113-115, 117, 128, 129, 138-140, 142, 143, 156, 166-168, 170-179, 181-190, 191-198, 199-202, 203-215, 216-240, 253-263"}
+        for group_name, tasks_string in tasks.items():
+            group_task = await self.api.add_task(content=f"{group_name}", project_id=self.project_id,
+                                                 parent_id=target_task_id, priority=self.default_priority+1)
+            async_tasks: list[AsyncTask] = []
+            for task in sorted(get_homework_tasks(tasks_string)):
+                logger.info(f"Создана задача: №{task}")
+                await self.create_homework_task(task, group_task)   
+
 
 async def create_weeks_tasks(api):
     weeks_tasks = []
@@ -85,11 +102,20 @@ async def create_weeks_tasks(api):
     return weeks_tasks
 
 
+def get_homework_tasks(string):
+    numbers = []
+    for span in string.replace(" ", "").split(","):
+        if "-" not in span:
+            numbers.append(int(span))
+        else:
+            start, end = list(map(int, span.split("-")))
+            numbers.extend(range(start, end+1))
+    return numbers
+
+
 async def test():
-    api = TodoistSchedule("db895749923dac14d6407a59c1789f4ba76f7e40", 2320959698, "")
-    await api.clear_schedule()
-    weeks_tasks = await create_weeks_tasks(api)
-    await asyncio.wait(weeks_tasks)
+    api = TodoistSchedule("db895749923dac14d6407a59c1789f4ba76f7e40", 2320958651, "")
+    await api.create_homework_tasks(7268809951)
 
 
 asyncio.run(test())

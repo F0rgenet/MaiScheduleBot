@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 from .main import Database
+from datetime import datetime
 
 
 class Group(Database.BASE):

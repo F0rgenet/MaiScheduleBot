@@ -1,9 +1,7 @@
-import re
-from sqlalchemy.exc import NoResultFound
-from xmltodict import parse as xml_parse
-from loguru import logger
+from modules.database import create_group
+from modules.parser import parse_groups
 
-from pathlib import Path
-from ..models import Group, Subject
-from .. import Database
 
+async def fill_groups():
+    for group in await parse_groups():
+        await create_group(group)
