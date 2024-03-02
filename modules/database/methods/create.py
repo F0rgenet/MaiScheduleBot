@@ -43,6 +43,7 @@ async def create_group(name: str):
     session = Database().session
     try:
         session.query(Group.id).filter(Group.name == name).one()
+        logger.info(f"Группа {name} уже внесена в БД")
     except NoResultFound:
         group_info = await get_group_info(name)
         if group_info:

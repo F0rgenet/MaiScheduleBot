@@ -46,8 +46,8 @@ class ScheduleParser(object):
         date = date.text.replace("\t", "").replace("\n", "").replace("\xa0", " ")
         weekday = date.split(",")[0].lower()
         date_data = date.strip().split(", ")[1].split(" ")
-        day = date_data[0]
         month = date_data[1]
+        day = date_data[0]
         for subject in day_soup.findChildren("div", {"class": "mb-4"}):
             subjects.append(self.parse_subject(subject))
         weekdays = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
